@@ -381,7 +381,10 @@ def template_csv() -> str:
 # ---------------------------------------------------------------- sample data
 
 def sample_data() -> pd.DataFrame:
-    """Made-up invoices for illustration: 12 months, 8 timekeepers, 5 clients. Same every load."""
+    """Made-up invoices for illustration: 12 months, 8 timekeepers, 18 clients on 18 e-billing portals.
+
+    Same every load.
+    """
     rnd = random.Random(20261007).random
 
     def wpick(pairs):
@@ -398,10 +401,17 @@ def sample_data() -> pd.DataFrame:
         ("Sofia Marchetti", "Associate", 4000, 28000), ("Jordan Blake", "Associate", 3500, 26000),
         ("Lena Fischer", "Paralegal", 1200, 9500), ("Tomas Rivera", "Paralegal", 1200, 8500),
     ]
+    # (client, e-billing portal, relative invoice volume): one fictional client per portal
     clients = [
-        ("Northgate Mutual", "Tymetrix 360"), ("Harborline Insurance", "CounselLink"),
-        ("Calder Freight Lines", "Legal-X"), ("Summit Ridge Health", "Collaborati"),
-        ("Pinecrest Property Trust", "Legal Tracker"),
+        ("Northgate Mutual", "Tymetrix 360", 9), ("Harborline Insurance", "CounselLink", 8),
+        ("Calder Freight Lines", "Legal-X", 7), ("Summit Ridge Health", "Collaborati", 7),
+        ("Pinecrest Property Trust", "Serengeti", 6), ("Bayview Casualty", "Quovant", 6),
+        ("Ironwood Energy", "Datacert", 5), ("Meridian Rail", "Legal Exchange", 5),
+        ("Ashford Retail Group", "Counsel Go", 4), ("Clearwater Logistics", "Legal Bill Review", 4),
+        ("Granite Peak Mining", "Stuart Maue", 4), ("Lakeshore Mutual Life", "SIMS", 3),
+        ("Redwood Pharma", "Ascent", 3), ("Silverline Telecom", "Bill Track Pro", 3),
+        ("Oakmont Construction", "Billing Point", 2), ("Fairhaven Bank", "Case Glide", 2),
+        ("Westbrook Hospitality", "Datalytics", 2), ("Crescent Auto Finance", "Legal Solutions", 2),
     ]
     # reason: (min %, max %, chance appealed, win factor)
     reasons = {
@@ -419,9 +429,9 @@ def sample_data() -> pd.DataFrame:
     out, no = [], 204100
     for m in range(12):
         year, month = 2025 + (9 + m) // 12, (9 + m) % 12 + 1
-        for _ in range(4 + int(rnd() * 4)):
+        for _ in range(9 + int(rnd() * 6)):
             name, role, lo, hi = tks[int(rnd() * len(tks))]
-            client, portal = clients[int(rnd() * len(clients))]
+            client, portal = wpick([((c, pt), w) for c, pt, w in clients])
             reason = wpick(by_role[role])
             pmin, pmax, p_appeal, win = reasons[reason]
             billed = round(lo + rnd() ** 1.8 * (hi - lo), 2)

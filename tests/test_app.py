@@ -13,7 +13,8 @@ import billing as B  # noqa: E402
 
 def test_sample_data_shape_and_outcome_split():
     df = B.sample_data()
-    assert 48 <= len(df) <= 84
+    assert 108 <= len(df) <= 168
+    assert df["portal"].nunique() == 18
     # every reduced dollar lands in exactly one outcome segment
     seg = df[["seg_rec", "seg_pend", "seg_den", "seg_none"]].sum(axis=1)
     assert (seg - df["red"]).abs().max() < 1e-6
