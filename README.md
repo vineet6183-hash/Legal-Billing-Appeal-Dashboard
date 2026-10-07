@@ -1,7 +1,9 @@
 # Legal Billing Appeal Dashboard
 
 A Streamlit web app for tracking e-billing reductions and appeal recoveries across
-U.S. e-billing portals (Tymetrix 360, CounselLink, Legal-X, Collaborati, Legal Tracker, …).
+U.S. e-billing portals. The built-in sample data covers 18 portals: Tymetrix 360, CounselLink,
+Legal-X, Collaborati, Serengeti, Quovant, Datacert, Legal Exchange, Counsel Go, Legal Bill Review,
+Stuart Maue, SIMS, Ascent, Bill Track Pro, Billing Point, Case Glide, Datalytics and Legal Solutions.
 
 ![sections](https://img.shields.io/badge/built%20with-Streamlit-ff4b4b)
 
